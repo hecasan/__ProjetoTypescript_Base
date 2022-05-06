@@ -10,12 +10,12 @@ router.post("/usuarios", UsuarioController.create);
 router.get("/usuarios", UsuarioController.findAll);
 
 // Listar um usuário no banco pelo ID
-router.get("/usuarios/usuarioId", UsuarioController.findOne);
+router.get("/usuarios/:usuarioId", UsuarioController.findOne);
 
 // Atualizar um usuário no banco
-router.put("/usuarios/usuarioId", UsuarioController.update);
+router.put("/usuarios/:usuarioId", UsuarioController.update);
 
 // Excluir um usuário no banco
-router.delete("/usuarios/usuarioId", UsuarioController.destroy);
+router.delete("/usuarios/:usuarioId", UsuarioController.destroy);
 
 export { router };

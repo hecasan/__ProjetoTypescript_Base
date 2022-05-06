@@ -3,12 +3,13 @@ import { db } from "./database/db";
 import { router } from "./routes";
 
 const app = express();
-app.use(json);
+app.use(json());
 app.use(router);
+const port = process.env.DATABASE_PORT;
 
-const port = 3000;
-
-app.listen(port, async () => {
+app.listen(`${port}`, async () => {
   await db.sync();
-  console.log(`${process.env.NOME_PROJETO} rodando na porta ${port}`);
+  console.log(
+    `Projeto ${process.env.NOME_PROJETO} rodando em http://${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}`
+  );
 });

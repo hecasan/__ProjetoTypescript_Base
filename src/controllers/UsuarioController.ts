@@ -1,24 +1,76 @@
 import { Request, Response } from "express";
-import { UsuarioModel } from "../database/models/UsuarioModel";
+import { UsuarioModel } from "../models/UsuarioModel";
 
 class UsuarioController {
-  async findAll(req: Request, res: Response) {}
+  create = (req: Request, res: Response) => {
+    UsuarioModel.create(req.body)
+      .then((usuario) => {
+        res.status(200).json(usuario);
+      })
+      .catch((errors) => {
+        res.status(500).json({ errors: errors.errors });
+      });
+  };
 
-  async findOne(req: Request, res: Response) {}
+  findAll = (req: Request, res: Response) => {
+    UsuarioModel.findAll(req.body)
+      .then((usuarios) => {
+        res.status(200).json(usuarios);
+      })
+      .catch((errors) => {
+        res.status(500).json({ errors: errors.errors });
+      });
+  };
 
-  async create(req: Request, res: Response) {
-    const { email, nome, idade } = req.body;
-    const usuario = await UsuarioModel.create({
-      email,
-      nome,
-      idade,
+  async findOne(req: Request, res: Response) {
+    const { usuarioId } = req.params;
+    const usuario = await UsuarioModel.findOne({
+      where: {
+        id: usuarioId,
+      },
     });
-    return res.status(201).json(usuario);
+    return usuario
+      ? res.status(200).json(usuario)
+      : res.status(404).send("Usuário não encontrado!");
   }
 
-  async update(req: Request, res: Response) {}
+  // async update(req: Request, res: Response) {
+  //   const { usuarioId } = req.params;
+  //   const usuario = await UsuarioModel.update(req.body, {
+  //     where: {
+  //       id: usuarioId,
+  //     },
+  //   });
+  //   return usuario
+  //     ? res.status(200).send("Usuário atualizado com sucesso")
+  //     : res.status(404).send("Usuário não encontrado!");
+  // }
 
-  async destroy(req: Request, res: Response) {}
+  async update(req: Request, res: Response) {
+    const { usuarioId } = req.params;
+    const usuario = await UsuarioModel.update(req.body, {
+      where: {
+        id: usuarioId,
+      },
+    });
+    return usuario
+      ? res.status(200).json({
+          msg: `Usuário  do id ${usuarioId} atualizado com sucesso`,
+        })
+      : res.status(404).send("Usuário não encontrado!");
+  }
+
+  async destroy(req: Request, res: Response) {
+    const { usuarioId } = req.params;
+    const usuario = await UsuarioModel.destroy({
+      where: {
+        id: usuarioId,
+      },
+    });
+    return usuario
+      ? res.status(200).send("Usuário excluído com sucesso")
+      : res.status(404).send("Usuário não encontrado!");
+  }
 }
 
 export default new UsuarioController();
