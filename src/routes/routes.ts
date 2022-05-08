@@ -1,10 +1,14 @@
 import express from "express";
-import UsuarioController from "./controllers/UsuarioController";
+import LoginController from "../controllers/LoginController";
+import UsuarioController from "../controllers/UsuarioController";
 
 const router = express.Router();
 
 // Criar um usuário no banco
 router.post("/usuarios", UsuarioController.create);
+
+// Criar um usuário no banco
+router.post("/login", LoginController.login);
 
 // Listar um usuário no banco
 router.get("/usuarios", UsuarioController.findAll);

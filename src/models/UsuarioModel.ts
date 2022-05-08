@@ -24,6 +24,10 @@ export const UsuarioModel = db.define(
         },
       },
     },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     nome: {
       type: DataTypes.STRING,
       allowNull: false,
